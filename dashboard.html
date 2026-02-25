@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<script>
+if(localStorage.getItem("logado") !== "true"){
+    window.location.href = "login.html";
+}
+</script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(-45deg, #141e30, #243b55, #1c1c1c);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.container {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 40px;
+    border-radius: 20px;
+    width: 400px;
+    color: white;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(30px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.calcular {
+    background: #00c6ff;
+    color: white;
+}
+
+.calcular:hover {
+    background: #0072ff;
+    transform: scale(1.05);
+}
+
+.logout {
+    background: #ff4d4d;
+    color: white;
+}
+
+.logout:hover {
+    background: #cc0000;
+    transform: scale(1.05);
+}
+
+.resultado {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>🏗️ Calculadora de Telhas</h2>
+
+    <input type="number" id="comprimento" placeholder="Comprimento (m)" step="0.01">
+    <input type="number" id="largura" placeholder="Largura (m)" step="0.01">
+    <input type="number" id="telhaComp" placeholder="Comprimento da Telha (m)" step="0.01">
+    <input type="number" id="telhaLarg" placeholder="Largura da Telha (m)" step="0.01">
+
+    <button class="calcular" onclick="calcular()">Calcular</button>
+    <button class="logout" onclick="logout()">Sair</button>
+
+    <div class="resultado" id="resultado"></div>
+</div>
+
+<script>
+function calcular() {
+    let c = parseFloat(document.getElementById("comprimento").value);
+    let l = parseFloat(document.getElementById("largura").value);
+    let tc = parseFloat(document.getElementById("telhaComp").value);
+    let tl = parseFloat(document.getElementById("telhaLarg").value);
+
+    if(!c || !l || !tc || !tl){
+        document.getElementById("resultado").innerHTML = "Preencha todos os campos!";
+        return;
+    }
+
+    let areaTelhado = c * l;
+    let areaTelha = tc * tl;
+    let quantidade = Math.ceil((areaTelhado / areaTelha) * 1.10);
+
+    document.getElementById("resultado").innerHTML =
+        `Você precisará de aproximadamente ${quantidade} telhas.`;
+}
+
+function logout(){
+    localStorage.removeItem("logado");
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
